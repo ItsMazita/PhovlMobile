@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PuntoDeVentaPhovl">
         <activity
+            android:name=".AdminLocalActivity"
+            android:exported="false" />
+        <activity
             android:name=".LocalesActivity"
             android:exported="false" />
         <activity
