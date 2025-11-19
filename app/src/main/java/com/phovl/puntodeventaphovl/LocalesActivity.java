@@ -38,12 +38,10 @@ public class LocalesActivity extends AppCompatActivity {
 
         recyclerLocales = findViewById(R.id.recyclerLocales);
 
-        // ⭐ GridLayoutManager centrado
         GridLayoutManager grid = new GridLayoutManager(this, 2);
         recyclerLocales.setLayoutManager(grid);
 
-        // ⭐ Espaciado entre items y separación de los bordes
-        int spacing = 24; // dp
+        int spacing = 6; // dp
         recyclerLocales.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -54,15 +52,15 @@ public class LocalesActivity extends AppCompatActivity {
             }
         });
 
-        // ⭐ Lista de locales
+        // Lista de locales (Mock Data)
         listaLocales = new ArrayList<>();
         listaLocales.add(new Local("Sucursal 1", R.drawable.local1));
-        listaLocales.add(new Local("Sucursal 2", R.drawable.local1));
-        listaLocales.add(new Local("Sucursal 3", R.drawable.local1));
-        listaLocales.add(new Local("Sucursal 4", R.drawable.local1));
-        listaLocales.add(new Local("Sucursal 5", R.drawable.local1));
+        listaLocales.add(new Local("Sucursal 2", R.drawable.local2));
+        listaLocales.add(new Local("Sucursal 3", R.drawable.local3));
+        listaLocales.add(new Local("Sucursal 4", R.drawable.local4));
+        listaLocales.add(new Local("Sucursal 5", R.drawable.local5));
 
-        // ⭐ Adapter con listener
+        // Adaptador
         LocalAdapter adapter = new LocalAdapter(this, listaLocales, local -> {
             Intent intent = new Intent(LocalesActivity.this, AdminLocalActivity.class);
             intent.putExtra("nombreLocal", local.getNombre());

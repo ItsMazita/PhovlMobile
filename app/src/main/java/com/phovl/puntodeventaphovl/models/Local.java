@@ -1,5 +1,6 @@
 package com.phovl.puntodeventaphovl.models;
 
+//Plantilla para locales :D
 public class Local {
 
     private String nombre;

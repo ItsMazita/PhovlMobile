@@ -5,19 +5,22 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="12dp"
-    android:layout_margin="12dp">
+    android:background="@drawable/caja_local"
+    android:elevation="6dp"
+    android:layout_margin="24dp">
+
 
     <ImageView
         android:id="@+id/imgLocal"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:src="@drawable/local1" />
+        android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/txtNombreLocal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sucursal"
+        android:text="@string/app_name"
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"

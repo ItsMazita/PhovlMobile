@@ -17,6 +17,14 @@
 
     <!-- Registro -->
 
+    <!-- Pantalla De Administracion -->
+
+    <!-- Seleccion De Locales -->
+
+    <string name="lbl_seleccionar_local">Seleccione el local que desea administrar</string>
+    <string name="lbl_bienvenido">Bienvenido!</string>
+
+
     <!-- Eleccion -->
 
     <!-- Mas Datos -->

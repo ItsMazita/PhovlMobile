@@ -15,13 +15,13 @@ import com.phovl.puntodeventaphovl.models.Local;
 
 import java.util.List;
 
+//Adaptador para mostrar la lista de locales en el recyclerview :3
 public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> {
 
     private List<Local> listaLocales;
     private Context context;
     private OnItemClickListener listener;
 
-    // 🔹 Interfaz para manejar clicks en un local
     public interface OnItemClickListener {
         void onItemClick(Local local);
     }
