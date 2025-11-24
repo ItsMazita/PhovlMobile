@@ -1,8 +1,8 @@
 package com.phovl.puntodeventaphovl;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -10,19 +10,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.phovl.puntodeventaphovl.adapters.LocalAdapter;
-import com.phovl.puntodeventaphovl.models.Local;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.phovl.puntodeventaphovl.room.LocalEntity;
+import com.phovl.puntodeventaphovl.room.LocalViewModel;
 
 public class LocalesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerLocales;
-    private List<Local> listaLocales;
+    private LocalAdapter adapter;
+    private LocalViewModel localViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,11 @@ public class LocalesActivity extends AppCompatActivity {
 
         recyclerLocales = findViewById(R.id.recyclerLocales);
 
-        GridLayoutManager grid = new GridLayoutManager(this, 2);
-        recyclerLocales.setLayoutManager(grid);
+        // Grid 2 columnas
+        recyclerLocales.setLayoutManager(new GridLayoutManager(this, 2));
 
-        int spacing = 6; // dp
+        // Spacing
+        int spacing = 6;
         recyclerLocales.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -52,22 +53,53 @@ public class LocalesActivity extends AppCompatActivity {
             }
         });
 
-        // Lista de locales (Mock Data)
-        listaLocales = new ArrayList<>();
-        listaLocales.add(new Local("Sucursal 1", R.drawable.local1));
-        listaLocales.add(new Local("Sucursal 2", R.drawable.local2));
-        listaLocales.add(new Local("Sucursal 3", R.drawable.local3));
-        listaLocales.add(new Local("Sucursal 4", R.drawable.local4));
-        listaLocales.add(new Local("Sucursal 5", R.drawable.local5));
-
-        // Adaptador
-        LocalAdapter adapter = new LocalAdapter(this, listaLocales, local -> {
+        // Inicializar adapter vacío
+        adapter = new LocalAdapter(this, local -> {
             Intent intent = new Intent(LocalesActivity.this, AdminLocalActivity.class);
             intent.putExtra("nombreLocal", local.getNombre());
-            intent.putExtra("imagenLocal", local.getImagen());
+            intent.putExtra("imagenLocal", 0); // Para despues
+            intent.putExtra("descripcionLocal", local.getDescripcion());
             startActivity(intent);
         });
 
         recyclerLocales.setAdapter(adapter);
+
+        // Conectamos el ViewModel
+        localViewModel = new ViewModelProvider(this).get(LocalViewModel.class);
+
+        // Observamos cambios en los datos del Room
+        localViewModel.getAllLocales().observe(this, locales -> {
+            if (locales == null || locales.isEmpty()) {
+                insertarLocalesPorDefecto();
+            } else {
+                adapter.setLocales(locales);
+            }
+        });
+    }
+
+    // Insertamos MockData en el room
+    private void insertarLocalesPorDefecto() {
+        LocalEntity local1 = new LocalEntity(
+                "Local Centro",
+                "",
+                "Av. Principal",
+                "Tienda dedicada a electronicos"
+        );
+        LocalEntity local2 = new LocalEntity(
+                "Local Barrancos",
+                "",
+                "Calle Rodolfo",
+                "Tienda dedicada a pan"
+        );
+        LocalEntity local3 = new LocalEntity(
+                "Local CU",
+                "",
+                "Av. Cultural",
+                "Tienda dedicada a frutas :D"
+        );
+
+        localViewModel.insert(local1);
+        localViewModel.insert(local2);
+        localViewModel.insert(local3);
     }
 }

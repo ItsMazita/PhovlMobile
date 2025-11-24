@@ -26,16 +26,15 @@ public class AdminLocalActivity extends AppCompatActivity {
 
         //Obtenemos los datos enviados desde LocalesActivity
         String nombreLocal = getIntent().getStringExtra("nombreLocal");
+        String descripcion = getIntent().getStringExtra("descripcionLocal");
         int imagenLocal = getIntent().getIntExtra("imagenLocal", 0);
 
         //Buscamos los elementos en el layout
         TextView txtNombre = findViewById(R.id.txtNombreLocalAdmin);
-        ImageView imgLocal = findViewById(R.id.imgLocalAdmin);
+        TextView txtDescripcion = findViewById(R.id.txtDescripcionAdmin);
 
         //Colocamos los datos
         txtNombre.setText(nombreLocal);
-        if (imagenLocal != 0) {
-            imgLocal.setImageResource(imagenLocal);
-        }
+        txtDescripcion.setText(descripcion);
     }
 }

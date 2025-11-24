@@ -1,5 +1,6 @@
 package com.phovl.puntodeventaphovl.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,24 +12,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.phovl.puntodeventaphovl.R;
-import com.phovl.puntodeventaphovl.models.Local;
+import com.phovl.puntodeventaphovl.room.LocalEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-//Adaptador para mostrar la lista de locales en el recyclerview :3
 public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> {
 
-    private List<Local> listaLocales;
-    private Context context;
-    private OnItemClickListener listener;
+    private List<LocalEntity> listaLocales = new ArrayList<>(); // ← ahora LocalEntity
+    private final Context context;
+    private final OnItemClickListener listener;
 
-    public interface OnItemClickListener {
-        void onItemClick(Local local);
+    @SuppressLint("NotifyDataSetChanged")
+    public void setLocales(List<LocalEntity> locales) {
+        this.listaLocales = locales;
+        notifyDataSetChanged();
     }
 
-    public LocalAdapter(Context context, List<Local> listaLocales, OnItemClickListener listener) {
+
+    public interface OnItemClickListener {
+        void onItemClick(LocalEntity local);
+    }
+
+    public LocalAdapter(Context context, OnItemClickListener listener) {
         this.context = context;
-        this.listaLocales = listaLocales;
         this.listener = listener;
     }
 
@@ -41,21 +48,26 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Local local = listaLocales.get(position);
+        LocalEntity local = listaLocales.get(position);
 
         holder.nombre.setText(local.getNombre());
-        holder.imagen.setImageResource(local.getImagen());
+
+        // Si algún día guardas imágenes, aquí se pondrá tu lógica
+        holder.imagen.setImageResource(R.drawable.ic_launcher_foreground);
 
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(local);
-            }
+            if (listener != null) listener.onItemClick(local);
         });
     }
 
     @Override
     public int getItemCount() {
         return listaLocales.size();
+    }
+
+    public void updateData(List<LocalEntity> nuevosLocales) {
+        listaLocales = nuevosLocales;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
