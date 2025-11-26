@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrito</title>
+
+  <style>
+    body{
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      margin:0;
+      padding:0;
+      background:#f5f5dc;
+      background-image: 
+        linear-gradient(45deg, rgba(139, 69, 19, 0.08) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(139, 69, 19, 0.08) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(139, 69, 19, 0.08) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(139, 69, 19, 0.08) 75%);
+      background-size: 40px 40px;
+      color:#0f172a;
+    }
+
+    header{
+      background:linear-gradient(90deg, #4f46e5 68%, #f6c90e 32%);
+      color:#fff;
+      padding:8px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position: relative;
+    }
+
+    /* --- MENÚ DESPLEGABLE AMARILLO --- */
+    .dropdown-return {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background: #f6c90e;
+      color: #000;
+      padding: 8px 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .dropdown-content-return {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: #f6c90e;
+      min-width: 180px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      z-index: 99;
+    }
+
+    .dropdown-content-return a {
+      color: #000;
+      padding: 10px 14px;
+      text-decoration: none;
+      display: block;
+      font-weight: 600;
+    }
+
+    .dropdown-content-return a:hover {
+      background: #ffe680;
+    }
+
+    .dropdown-return:hover .dropdown-content-return {
+      display: block;
+    }
+
+    /* --- CONTENIDO --- */
+    .container{
+      max-width:900px;
+      margin:24px auto;
+      padding:0 16px;
+    }
+
+    h2{
+      text-align:center;
+    }
+
+    .cart-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#fffdf5;
+      margin-bottom:12px;
+      padding:12px;
+      border-radius:12px;
+      box-shadow:0 4px 12px rgba(18,38,63,0.08);
+    }
+
+    .cart-item span{
+      font-weight:600;
+    }
+
+    .quantity-buttons{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .qty-btn{
+      background:#f6c90e;
+      border:none;
+      padding:6px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:18px;
+      transition:0.3s;
+    }
+
+    .qty-btn:hover{
+      background:#4f46e5;
+      color:white;
+    }
+
+    .total{
+      text-align:right;
+      margin-top:12px;
+      font-size:18px;
+      font-weight:700;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div>🛒 Carrito</div>
+
+  <div class="dropdown-return">
+    <button class="dropbtn">Volver a: ▼</button>
+    <div class="dropdown-content-return">
+      <a href="Pagina Principal.html">Página Principal</a>
+      <a href="sucursal1.html">Sucursal 1</a>
+      <a href="sucursal2.html">Sucursal 2</a>
+      <a href="sucursal3.html">Sucursal 3</a>
+      <a href="sucursal4.html">Sucursal 4</a>
+      <a href="sucursal5.html">Sucursal 5</a>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <h2>Tu carrito de compras</h2>
+  <div id="cart-items"></div>
+  <div class="total" id="total"></div>
+</div>
+
+<script>
+  function loadCart(){
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const container = document.getElementById('cart-items');
+    const totalEl = document.getElementById('total');
+    container.innerHTML = '';
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price * item.quantity;
+
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <span>${item.name}</span>
+        <div class="quantity-buttons">
+          <button class="qty-btn decrease" data-index="${index}">−</button>
+          <span>x${item.quantity}</span>
+          <button class="qty-btn increase" data-index="${index}">+</button>
+          <span>$${(item.price * item.quantity).toFixed(2)} MXN</span>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    totalEl.textContent = "Total: $" + total.toFixed(2) + " MXN";
+
+    // Disminuir cantidad
+    document.querySelectorAll('.decrease').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = btn.dataset.index;
+        if(cart[idx].quantity > 1){
+          cart[idx].quantity -= 1;
+        } else {
+          cart.splice(idx, 1);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+      });
+    });
+
+    // Aumentar cantidad
+    document.querySelectorAll('.increase').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = btn.dataset.index;
+        cart[idx].quantity += 1;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        loadCart();
+      });
+    });
+  }
+
+  window.onload = loadCart;
+</script>
+
+</body>
+</html>
+
+
+
