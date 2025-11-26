@@ -1,8 +1,7 @@
-package com.phovl.puntodeventaphovl;
+package com.phovl.puntodeventaphovl.ui.locales.admin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,27 +9,25 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.phovl.puntodeventaphovl.ui.locales.LocalesActivity;
+import com.phovl.puntodeventaphovl.R;
 
-public class RegistroActivity extends AppCompatActivity {
+public class ProductosLocalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_registro);
-
+        setContentView(R.layout.activity_productos_local);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        Button btnIngresar = findViewById(R.id.btn_ingresar);
-        btnIngresar.setOnClickListener(v -> {
-            Intent intent = new Intent(RegistroActivity.this, LocalesActivity.class);
-            startActivity(intent);
-            finish();
+        //Boton para volver a la pantalla de administracion
+        ImageButton btnRegresar = findViewById(R.id.btn_regresar);
+        btnRegresar.setOnClickListener(v -> {
+            finish(); // Cierra la pantalla actual y regresa a la anterior
         });
 
     }

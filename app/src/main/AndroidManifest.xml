@@ -12,10 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PuntoDeVentaPhovl">
         <activity
-            android:name=".AdminLocalActivity"
+            android:name=".ui.locales.admin.ConfiguracionLocalActivity"
             android:exported="false" />
         <activity
-            android:name=".LocalesActivity"
+            android:name=".ui.locales.admin.EstadisticasLocalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.locales.admin.ProductosLocalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.locales.admin.AdminLocalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.locales.LocalesActivity"
             android:exported="false" />
         <activity
             android:name=".RegistroActivity"

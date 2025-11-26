@@ -1,4 +1,4 @@
-package com.phovl.puntodeventaphovl.room;
+package com.phovl.puntodeventaphovl.data.room;
 
 import androidx.room.Database;
 import androidx.room.Room;

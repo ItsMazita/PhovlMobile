@@ -1,4 +1,4 @@
-package com.phovl.puntodeventaphovl;
+package com.phovl.puntodeventaphovl.ui.locales;
 
 import android.content.Intent;
 import android.graphics.Rect;
@@ -7,16 +7,15 @@ import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.phovl.puntodeventaphovl.adapters.LocalAdapter;
-import com.phovl.puntodeventaphovl.room.LocalEntity;
-import com.phovl.puntodeventaphovl.room.LocalViewModel;
+import com.phovl.puntodeventaphovl.R;
+import com.phovl.puntodeventaphovl.data.room.LocalEntity;
+import com.phovl.puntodeventaphovl.ui.locales.admin.AdminLocalActivity;
 
 public class LocalesActivity extends AppCompatActivity {
 
@@ -30,44 +29,43 @@ public class LocalesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_locales);
 
+        // Ajuste de insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).top,
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                    insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom);
             return insets;
         });
 
         recyclerLocales = findViewById(R.id.recyclerLocales);
 
-        // Grid 2 columnas
+        // Grid con 2 columnas
         recyclerLocales.setLayoutManager(new GridLayoutManager(this, 2));
 
-        // Spacing
-        int spacing = 6;
+        // Espaciado entre ítems
+        int spacing = 16;
         recyclerLocales.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.left = spacing;
-                outRect.right = spacing;
-                outRect.top = spacing;
-                outRect.bottom = spacing;
+                outRect.set(spacing, spacing, spacing, spacing);
             }
         });
 
-        // Inicializar adapter vacío
+        // Inicializar adapter
         adapter = new LocalAdapter(this, local -> {
             Intent intent = new Intent(LocalesActivity.this, AdminLocalActivity.class);
             intent.putExtra("nombreLocal", local.getNombre());
-            intent.putExtra("imagenLocal", 0); // Para despues
+            intent.putExtra("imagenLocal", 0); // Para después
             intent.putExtra("descripcionLocal", local.getDescripcion());
             startActivity(intent);
         });
-
         recyclerLocales.setAdapter(adapter);
 
-        // Conectamos el ViewModel
+        // Conectar ViewModel
         localViewModel = new ViewModelProvider(this).get(LocalViewModel.class);
 
-        // Observamos cambios en los datos del Room
+        // Observar cambios en Room
         localViewModel.getAllLocales().observe(this, locales -> {
             if (locales == null || locales.isEmpty()) {
                 insertarLocalesPorDefecto();
@@ -77,29 +75,12 @@ public class LocalesActivity extends AppCompatActivity {
         });
     }
 
-    // Insertamos MockData en el room
+    // Insertar datos de prueba
     private void insertarLocalesPorDefecto() {
-        LocalEntity local1 = new LocalEntity(
-                "Local Centro",
-                "",
-                "Av. Principal",
-                "Tienda dedicada a electronicos"
-        );
-        LocalEntity local2 = new LocalEntity(
-                "Local Barrancos",
-                "",
-                "Calle Rodolfo",
-                "Tienda dedicada a pan"
-        );
-        LocalEntity local3 = new LocalEntity(
-                "Local CU",
-                "",
-                "Av. Cultural",
-                "Tienda dedicada a frutas :D"
-        );
-
-        localViewModel.insert(local1);
-        localViewModel.insert(local2);
-        localViewModel.insert(local3);
+        localViewModel.insert(new LocalEntity("Local Centro", "", "Av. Principal", "Tienda dedicada a electrónicos"));
+        localViewModel.insert(new LocalEntity("Local Barrancos", "", "Calle Rodolfo", "Tienda dedicada a pan"));
+        localViewModel.insert(new LocalEntity("Local CU", "", "Av. Cultural", "Tienda dedicada a frutas :D"));
+        localViewModel.insert(new LocalEntity("Local Mercado", "", "Av. Mercado", "Tienda dedicada a bicicletas"));
+        localViewModel.insert(new LocalEntity("Local Alturas", "", "Av. Ley Fong", "Tienda dedicada a zapatos"));
     }
 }

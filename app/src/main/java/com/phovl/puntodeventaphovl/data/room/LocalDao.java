@@ -1,4 +1,4 @@
-package com.phovl.puntodeventaphovl.room;
+package com.phovl.puntodeventaphovl.data.room;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

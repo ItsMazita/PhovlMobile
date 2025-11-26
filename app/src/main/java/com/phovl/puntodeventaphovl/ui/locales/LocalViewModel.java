@@ -1,10 +1,13 @@
-package com.phovl.puntodeventaphovl.room;
+package com.phovl.puntodeventaphovl.ui.locales;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.phovl.puntodeventaphovl.data.room.LocalEntity;
+import com.phovl.puntodeventaphovl.data.room.repository.LocalRepository;
 
 import java.util.List;
 

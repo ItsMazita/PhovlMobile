@@ -1,4 +1,4 @@
-package com.phovl.puntodeventaphovl.adapters;
+package com.phovl.puntodeventaphovl.ui.locales;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.phovl.puntodeventaphovl.R;
-import com.phovl.puntodeventaphovl.room.LocalEntity;
+import com.phovl.puntodeventaphovl.data.room.LocalEntity;
 
 import java.util.ArrayList;
 import java.util.List;

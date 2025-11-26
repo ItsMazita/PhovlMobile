@@ -1,8 +1,12 @@
-package com.phovl.puntodeventaphovl.room;
+package com.phovl.puntodeventaphovl.data.room.repository;
 
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
+
+import com.phovl.puntodeventaphovl.data.room.AppDatabase;
+import com.phovl.puntodeventaphovl.data.room.LocalDao;
+import com.phovl.puntodeventaphovl.data.room.LocalEntity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

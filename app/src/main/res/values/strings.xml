@@ -19,6 +19,11 @@
 
     <!-- Pantalla De Administracion -->
 
+    <string name="txt_productos">Productos</string>
+    <string name="txt_estadisticas">Estadisticas</string>
+    <string name="txt_configuracion">Configuracion</string>
+
+
     <!-- Seleccion De Locales -->
 
     <string name="lbl_seleccionar_local">Seleccione el local que desea administrar</string>
